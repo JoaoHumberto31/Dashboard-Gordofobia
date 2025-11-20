@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Gordofobia - Resultados da Pesquisa</title>
+    <!-- Carrega Tailwind CSS para estilização e responsividade -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuração de fontes e cores do Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#102a43',
+                        'secondary-gray': '#e1e7ec',
+                        'accent-teal': '#2cb1bc',
+                        'accent-orange': '#f87171',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Carrega a biblioteca Chart.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <!-- Estilo personalizado para garantir que o fundo e o espaçamento sejam bons -->
+    <style>
+        body {
+            background-color: #f7fafc; /* Tailwind: bg-gray-50 */
+            font-family: 'Inter', sans-serif;
+        }
+        /* Garantindo que o canvas seja responsivo dentro do seu container */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <header class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-primary-blue mb-2">Análise de Gordofobia</h1>
+        <p class="text-xl text-gray-600">Resultados da Pesquisa Simulada (N=50)</p>
+        <p class="mt-4 p-3 bg-accent-teal/10 text-accent-teal font-medium rounded-lg shadow-sm">
+            Os gráficos abaixo exibem a distribuição de 50 respostas simuladas para cada uma das 10 perguntas do formulário.
+        </p>
+    </header>
+
+    <!-- Grid responsivo para os 10 gráficos -->
+    <main class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+        <!-- Contêineres de Gráficos (serão populados pelo JavaScript) -->
+        <!-- Q1 -->
+        <div id="chart-card-1" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <div class="chart-container">
+                <canvas id="chart1"></canvas>
+            </div>
+        </div>
+        <!-- Q2 -->
+        <div id="chart-card-2" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <div class="chart-container">
+                <canvas id="chart2"></canvas>
+            </div>
+        </div>
+        <!-- Q3 -->
+        <div id="chart-card-3" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <div class="chart-container">
+                <canvas id="chart3"></canvas>
+            </div>
+        </div>
+        <!-- Q4 -->
+        <div id="chart-card-4" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <div class="chart-container">
+                <canvas id="chart4"></canvas>
+            </div>
+        </div>
+        <!-- Q5 -->
+        <div id="chart-card-5" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <div class="chart-container">
+                <canvas id="chart5"></canvas>
+            </div>
+        </div>
+        <!-- Q6 -->
+        <div id="chart-card-6" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <div class="chart-container">
+                <canvas id="chart6"></canvas>
+            </div>
+        </div>
+        <!-- Q7 -->
+        <div id="chart-card-7" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <div class="chart-container">
+                <canvas id="chart7"></canvas>
+            </div>
+        </div>
+        <!-- Q8 -->
+        <div id="chart-card-8" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <div class="chart-container">
+                <canvas id="chart8"></canvas>
+            </div>
+        </div>
+        <!-- Q9 -->
+        <div id="chart-card-9" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <div class="chart-container">
+                <canvas id="chart9"></canvas>
+            </div>
+        </div>
+        <!-- Q10 -->
+        <div id="chart-card-10" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <div class="chart-container">
+                <canvas id="chart10"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 text-center text-gray-500 text-sm p-4 border-t border-gray-200">
+        Desenvolvido com Chart.js e Tailwind CSS. Simulação de 50 respostas.
+    </footer>
+
+    <script>
+        // Definição dos dados da pesquisa simulada (50 respostas)
+        const surveyData = [
+            // Q1: Presença de Gordofobia
+            {
+                id: 'chart1',
+                question: '1. Em que grau você considera que a gordofobia está presente em sua sociedade?',
+                labels: ['Muito baixo', 'Baixo', 'Moderado', 'Alto', 'Muito alto'],
+                counts: [2, 5, 15, 18, 10], // Total: 50
+                isMulti: false,
+                color: 'rgba(54, 162, 235, 0.8)',
+            },
+            // Q2: Vítima de Discriminação
+            {
+                id: 'chart2',
+                question: '2. Você já foi vítima de comentários, piadas ou discriminação relacionados ao seu peso/corpo?',
+                labels: ['Sim, frequentemente', 'Sim, algumas vezes', 'Raramente', 'Não', 'Prefiro não responder'],
+                counts: [12, 15, 8, 10, 5], // Total: 50
+                isMulti: false,
+                color: 'rgba(255, 99, 132, 0.8)',
+            },
+            // Q3: Ambientes de Gordofobia (Múltipla Escolha - Total > 50)
+            {
+                id: 'chart3',
+                question: '3. Em qual destes ambientes você já percebeu ou sofreu manifestações de gordofobia? (Marque todas que se aplicam)',
+                labels: ['Familiar', 'Escolar/Acadêmico', 'Trabalho', 'Serviços de saúde', 'Transporte público', 'Mídias sociais / Internet', 'Lojas de roupas/comércio', 'Nunca percebi/sofri'],
+                counts: [15, 25, 18, 30, 10, 40, 35, 5],
+                isMulti: true, // Indica que é múltipla escolha
+                color: 'rgba(75, 192, 192, 0.8)',
+            },
+            // Q4: Oportunidades Negativamente Afetadas (Múltipla Escolha - Total > 50)
+            {
+                id: 'chart4',
+                question: '4. Você acredita que o seu peso/corpo já afetou negativamente suas oportunidades em alguma das seguintes áreas?',
+                labels: ['Emprego/Carreira', 'Relacionamentos amorosos', 'Vida social/Amizades', 'Acesso a roupas adequadas', 'Acesso à saúde de qualidade', 'Não afetou negativamente'],
+                counts: [15, 20, 10, 35, 18, 15],
+                isMulti: true,
+                color: 'rgba(153, 102, 255, 0.8)',
+            },
+            // Q5: Frequência de Estereótipos na Mídia
+            {
+                id: 'chart5',
+                question: '5. Com que frequência você observa a mídia retratando pessoas gordas de forma estereotipada?',
+                labels: ['Muito frequentemente', 'Frequentemente', 'Às vezes', 'Raramente', 'Nunca'],
+                counts: [22, 18, 8, 2, 0], // Total: 50
+                isMulti: false,
+                color: 'rgba(255, 159, 64, 0.8)',
+            },
+            // Q6: Intervenção em Casos de Gordofobia
+            {
+                id: 'chart6',
+                question: '6. Você já presenciou alguém sofrendo gordofobia e interveio em defesa dessa pessoa?',
+                labels: ['Sim, sempre', 'Sim, algumas vezes', 'Não, por medo/insegurança', 'Não, mas gostaria de ter intervindo', 'Nunca presenciei'],
+                counts: [5, 15, 10, 15, 5], // Total: 50
+                isMulti: false,
+                color: 'rgba(255, 205, 86, 0.8)',
+            },
+            // Q7: Gordofobia Justificada pela Saúde
+            {
+                id: 'chart7',
+                question: '7. Você acredita que a gordofobia está diretamente ligada à saúde de uma pessoa, justificando o preconceito?',
+                labels: ['Sim, preconceito é justificado pela saúde', 'Parcialmente, mas é inaceitável', 'Não, saúde é privada e não justifica', 'Não sei opinar'],
+                counts: [5, 10, 30, 5], // Total: 50
+                isMulti: false,
+                color: 'rgba(54, 162, 235, 0.8)',
+            },
+            // Q8: Papel das Redes Sociais
+            {
+                id: 'chart8',
+                question: '8. Em sua opinião, qual é o papel das redes sociais na disseminação ou no combate à gordofobia?',
+                labels: ['Principalmente disseminam', 'Principalmente ajudam a combater', 'Impacto neutro', 'Papel misto'],
+                counts: [25, 8, 2, 15], // Total: 50
+                isMulti: false,
+                color: 'rgba(75, 192, 192, 0.8)',
+            },
+            // Q9: Passo Mais Eficaz para Redução
+            {
+                id: 'chart9',
+                question: '9. Qual seria o primeiro passo mais eficaz para reduzir a gordofobia na sociedade?',
+                labels: ['Representatividade positiva na mídia', 'Legislação mais rigorosa', 'Campanhas de conscientização', 'Foco em "saúde em todos os tamanhos"'],
+                counts: [15, 10, 18, 7], // Total: 50
+                isMulti: false,
+                color: 'rgba(153, 102, 255, 0.8)',
+            },
+            // Q10: Nível de Impacto na Saúde Mental (Escala 0-5)
+            {
+                id: 'chart10',
+                question: '10. De 0 (nenhum impacto) a 5 (impacto extremo), qual é o nível de impacto na saúde mental?',
+                labels: ['0', '1', '2', '3', '4', '5'],
+                counts: [2, 3, 5, 10, 15, 15], // Total: 50
+                isMulti: false,
+                color: 'rgba(255, 99, 132, 0.8)',
+            }
+        ];
+
+        // Função para criar um gráfico de barras
+        function createBarChart(chartData) {
+            const ctx = document.getElementById(chartData.id).getContext('2d');
+            const totalResponses = chartData.isMulti ? chartData.counts.reduce((a, b) => a + b, 0) : 50;
+            const barColors = chartData.labels.map((_, index) => {
+                // Alterna entre uma cor principal e uma cor secundária para melhor visualização
+                return index % 2 === 0 ? chartData.color.replace('0.8', '1') : chartData.color.replace('0.8', '0.6');
+            });
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: chartData.isMulti ? 'Contagem de Respostas' : 'Número de Votos (N=50)',
+                        data: chartData.counts,
+                        backgroundColor: barColors,
+                        borderColor: barColors.map(c => c.replace('0.8', '1')), // Borda mais escura
+                        borderWidth: 1,
+                        borderRadius: 5, // Cantos arredondados nas barras
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y', // Gráfico de barras horizontal
+                    plugins: {
+                        legend: {
+                            display: false // Oculta a legenda, pois a pergunta já está no título
+                        },
+                        title: {
+                            display: true,
+                            text: chartData.question,
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            color: '#102a43', // primary-blue
+                            padding: {
+                                top: 5,
+                                bottom: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.x;
+                                    const percentage = ((value / totalResponses) * 100).toFixed(1);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Contagem de Respostas',
+                                color: '#4b5563'
+                            },
+                            ticks: {
+                                precision: 0 // Garantir que o eixo X mostre apenas números inteiros
+                            },
+                            grid: {
+                                display: false // Remove linhas de grade horizontais
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: '#e5e7eb', // Linhas de grade verticais suaves
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Renderiza todos os gráficos após o carregamento da página
+        window.onload = function() {
+            surveyData.forEach(createBarChart);
+        };
+    </script>
+</body>
+</html>
